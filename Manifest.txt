@@ -160,10 +160,10 @@ ext/nokogiri/xml_xpath_context.c
 ext/nokogiri/xml_xpath_context.h
 ext/nokogiri/xslt_stylesheet.c
 ext/nokogiri/xslt_stylesheet.h
-lib/isorelax.jar
-lib/jing.jar
-lib/nekodtd.jar
-lib/nekohtml.jar
+lib/com/thaiopensource/jing/20091111/jing-20091111.jar
+lib/isorelax/isorelax/20041111/isorelax-20041111.jar
+lib/nekohtml/nekodtd/0.1.11/nekodtd-0.1.11.jar
+lib/nekohtml/nekohtml/1.9.6.2/nekohtml-1.9.6.2.jar
 lib/nokogiri.rb
 lib/nokogiri/css.rb
 lib/nokogiri/css/node.rb
@@ -227,8 +227,8 @@ lib/nokogiri/xml/xpath/syntax_error.rb
 lib/nokogiri/xml/xpath_context.rb
 lib/nokogiri/xslt.rb
 lib/nokogiri/xslt/stylesheet.rb
-lib/serializer.jar
-lib/xalan.jar
-lib/xercesImpl.jar
-lib/xml-apis.jar
+lib/xalan/serializer/2.7.2/serializer-2.7.2.jar
+lib/xalan/xalan/2.7.2/xalan-2.7.2.jar
+lib/xerces/xercesImpl/2.12.0/xercesImpl-2.12.0.jar
+lib/xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar
 lib/xsd/xmlparser/nokogiri.rb

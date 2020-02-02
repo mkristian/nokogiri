@@ -1,3 +1,5 @@
+**/maven-metadata-local.xml
+**/_remote.repositories
 *.gemspec
 *.tmproj
 *~

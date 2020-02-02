@@ -172,7 +172,7 @@ HOE = Hoe.spec 'nokogiri' do
 
   if java?
     self.extra_deps += [
-      ['jar-dependencies', "~> 0.4.0"],
+      ['jar-dependencies', ">= 0.4.0"],
     ]
     def self.add_dependencies
       super
@@ -419,6 +419,15 @@ namespace "gem" do
   task "jruby" do
     RakeCompilerDock.sh "gem install bundler && bundle && rake java gem", rubyvm: 'jruby'
   end
+end
+
+desc "update jar dependencies from Jarfile"
+task "deps:jars" do
+  require 'maven/ruby/maven'
+  # uses Mavenfile to vendor jar dependencies declared in Jarfile.
+  # this is basically the same as running from the commandline:
+  # rmvn dependency:build-classpath -Dverbose=true -DoutputDirectory=lib/jars -Dmdep.useRepositoryLayout=true
+  Maven::Ruby::Maven.new.exec('dependency:copy-dependencies', '-Dverbose=true', '-DoutputDirectory=lib', '-Dmdep.useRepositoryLayout=true')
 end
 
 require_relative "tasks/docker"

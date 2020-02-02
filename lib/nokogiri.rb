@@ -6,6 +6,29 @@ require 'rbconfig'
 
 if defined?(RUBY_ENGINE) && RUBY_ENGINE == "jruby"
   require 'nokogiri/jruby/dependencies'
+  # The line below caused a problem on non-GAE rack environment.
+  # unless defined?(JRuby::Rack::VERSION) || defined?(AppEngine::ApiProxy)
+  #
+  # However, simply cutting defined?(JRuby::Rack::VERSION) off resulted in
+  # an unable-to-load-nokogiri problem. Thus, now, Nokogiri checks the presense
+  # of appengine-rack.jar in $LOAD_PATH. If Nokogiri is on GAE, Nokogiri
+  # should skip loading xml jars. This is because those are in WEB-INF/lib and
+  # already set in the classpath.
+  unless $LOAD_PATH.to_s.include?("appengine-rack")
+    require 'jar-dependencies'
+    this_dir = File.expand_path('..', __FILE__)
+    Dir[this_dir + '/**/*jar'].collect do |x|
+      File.dirname(x.sub(this_dir + '/', '')).split '/'
+    end.select do |x|
+      x.size > 2
+    end.each do |x|
+      g = x[0..-3].join('.')
+      a = x[-2..-2].first
+      v = x[-1..-1].first
+      require_jar(g, a, v)
+    end
+    require 'stringio'
+  end
 end
 
 begin
