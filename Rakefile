@@ -177,14 +177,13 @@ HOE = Hoe.spec 'nokogiri' do
     def self.add_dependencies
       super
 
-      # spec.requirements << 'jar com.sun.xml.bind.jaxb, isorelax, 20090621' # unknown where to find original 20041111
-      spec.requirements << 'jar com.thaiopensource, jing, 20091111'
-      # spec.requirements << 'jar nekohtml, nekodtd, 0.1.11' # FIXME,  not using jvshahid's fork!
-      # spec.requirements << 'jar nekohtml, nekohtml, 1.9.6.2' # FIXME,  not using jvshahid's fork!
-      spec.requirements << 'jar xalan, serializer, 2.7.2'
-      spec.requirements << 'jar xalan, xalan, 2.7.2'
-      spec.requirements << 'jar xerces, xercesImpl, 2.12.0'
-      spec.requirements << 'jar xml-apis, xml-apis, 1.4.01'
+      File.read('Jarfile').each_line do |line|
+        line.sub!(/#.*/, '')
+        line.strip!
+        unless line.empty?
+          spec.requirements << line
+        end
+      end
     end
   else
     self.extra_deps += [
@@ -428,6 +427,10 @@ task "deps:jars" do
   # this is basically the same as running from the commandline:
   # rmvn dependency:build-classpath -Dverbose=true -DoutputDirectory=lib/jars -Dmdep.useRepositoryLayout=true
   Maven::Ruby::Maven.new.exec('dependency:copy-dependencies', '-Dverbose=true', '-DoutputDirectory=lib', '-Dmdep.useRepositoryLayout=true')
+  puts
+  puts 'New jar file needs to be added in git and Manifest.txt and'
+  puts 'obsolete jar files needs to removed similar.'
+  puts
 end
 
 require_relative "tasks/docker"
